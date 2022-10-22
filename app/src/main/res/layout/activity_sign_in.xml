@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="35dp"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="@string/email"
+                    android:text="Email"
                     android:textSize="15sp" />
 
                 <EditText
