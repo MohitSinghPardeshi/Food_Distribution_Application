@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "2472782345",
+    "project_id": "excess-food-distribution",
+    "storage_bucket": "excess-food-distribution.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2472782345:android:694153720166ce454e26d8",
+        "android_client_info": {
+          "package_name": "com.example.fooddistribution"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2472782345-peelm05hs6h0b5u82f8joc5o8i187fp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_5P_A5hx4EuAdpjzLqjhOA2XHFBpet_Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2472782345-peelm05hs6h0b5u82f8joc5o8i187fp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
