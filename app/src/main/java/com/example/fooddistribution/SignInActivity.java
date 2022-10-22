@@ -28,7 +28,7 @@ public class SignInActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         mAuth=FirebaseAuth.getInstance();
-        test();
+        initFun();
 
         email = findViewById(R.id.loginEmailId);
         password = findViewById(R.id.loginPassword);
@@ -39,29 +39,20 @@ public class SignInActivity extends AppCompatActivity
             }
         });
     }
-
-    /*
-     * This is a Test method to test UI feature functionality.
-     * It must be removed during actual feature implementation and should not
-     * be considered as actual code for the feature to work.
-     */
     private void login() {
         mAuth.signInWithEmailAndPassword(email.getText().toString().trim(), password.getText().toString().trim())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
 
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(SignInActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
-//                            startActivity(new Intent(SignInActivity.this,choiceActivity.class));
+                        // Sign in success, update UI with the signed-in user's information
+                        Toast.makeText(SignInActivity.this, "Login Success", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SignInActivity.this,firstPage.class));
 
 
-                        } else {
-                            Toast.makeText(SignInActivity.this, "Entered details are not correct",
-                                    Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignInActivity.this, "Entered details are not correct",
+                                Toast.LENGTH_SHORT).show();
 
-                        }
                     }
                 });
     }
@@ -80,16 +71,9 @@ public class SignInActivity extends AppCompatActivity
 
         return true;
     }
-    private void test ()
+    private void initFun ()
     {
         TextView reg = findViewById(R.id.directToRegister);
-        reg.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick (View view)
-            {
-                startActivity(new Intent(SignInActivity.this,RegisterActivity.class));
-            }
-        });
+        reg.setOnClickListener(view -> startActivity(new Intent(SignInActivity.this,RegisterActivity.class)));
     }
 }

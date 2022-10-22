@@ -2,7 +2,6 @@
     <string name="app_name">Food Distribution</string>
 
 
-
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -31,5 +30,7 @@
     <string name="country">Country</string>
     <string name="skip_for_now">Skip For Now</string>
     <string name="get_started">Get Started</string>
+    <string name="nav_open">open</string>
+    <string name="nav_close">close navigation</string>
 
 </resources>
