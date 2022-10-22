@@ -606,6 +606,8 @@
                     android:contentDescription="@string/proceed"
                     android:src="@drawable/ic_forward" />
 
+
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

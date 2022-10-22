@@ -15,18 +15,9 @@ public class RegisterActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-//        ActionBar actionbar = getSupportActionBar();
-//        actionbar.hide();
-
-        test();
+        initFun();
     }
-
-    /*
-     * This is a Test method to test UI feature functionality.
-     * It must be removed during actual feature implementation and should not
-     * be considered as actual code for the feature to work.
-     */
-    private void test ()
+    private void initFun ()
     {
         LinearLayout cred = findViewById(R.id.credentials);
         LinearLayout det = findViewById(R.id.personalDetails);
@@ -54,5 +45,7 @@ public class RegisterActivity extends AppCompatActivity
                 add.setVisibility(View.VISIBLE);
             }
         });
+
+
     }
 }
