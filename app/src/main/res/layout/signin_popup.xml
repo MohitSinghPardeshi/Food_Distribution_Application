@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="380dp"
+    android:layout_gravity="center"
+    android:background="@drawable/logout_popup_background"
+    android:layout_height="wrap_content">
+    <TextView
+        android:text="Register as a.."
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:padding="10dp"
+            android:clickable="true"
+            android:id="@+id/donorLLpopup"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="11"
+                android:layout_gravity="center"
+                android:focusable="true"
+                android:src="@drawable/donoricon"
+                android:padding="4dp"
+                />
+
+            <TextView
+                android:text="Donor"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:clickable="true"
+            android:id="@+id/charityLLpopup"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_gravity="center"
+                android:focusable="true"
+                android:src="@drawable/charityicon"
+                android:padding="4dp"
+                />
+
+            <TextView
+                android:text="Charity"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:id="@+id/volunteerLLpopup"
+            android:padding="10dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="11"
+                android:focusable="true"
+                android:src="@drawable/volunteericon"
+                android:padding="4dp"
+                />
+
+            <TextView
+                android:gravity="center_horizontal"
+                android:text="Volunteer"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

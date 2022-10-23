@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Food Distribution</string>
+    <string name="app_name">Food.Distribution</string>
 
 
 
-    <string name="login">Login</string>
+    <string name="login">Log.in</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="forgot_password">Forgot Password ?</string>
@@ -31,5 +31,6 @@
     <string name="country">Country</string>
     <string name="skip_for_now">Skip For Now</string>
     <string name="get_started">Get Started</string>
+    <string name="sign_in">Login</string>
 
 </resources>
