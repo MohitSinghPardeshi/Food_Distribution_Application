@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.fooddistribution.Activities.SignInActivity;
 import com.google.android.material.navigation.NavigationView;
 
 public class firstPage extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class firstPage extends AppCompatActivity {
         initViews();
         //navigation menu items click
         setSupportActionBar(toolbar);
-        toggle = new ActionBarDrawerToggle(firstPage.this,layout,toolbar,R.string.nav_open,R.string.nav_close);
+        //toggle = new ActionBarDrawerToggle(firstPage.this,layout,toolbar,R.string.nav_open,R.string.nav_close);
         layout.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -45,7 +46,7 @@ public class firstPage extends AppCompatActivity {
 
                         break;
                     case R.id.signOut:
-                        startActivity(new Intent(firstPage.this ,SignInActivity.class));
+                        startActivity(new Intent(firstPage.this , SignInActivity.class));
                         Toast.makeText(firstPage.this,"SignOut ",Toast.LENGTH_SHORT).show();
 
                         break;
