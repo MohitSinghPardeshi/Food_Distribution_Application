@@ -1,7 +1,5 @@
 package com.example.fooddistribution.Activities;
 
-import static com.google.common.io.Files.getFileExtension;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +28,7 @@ import android.widget.Toast;
 import com.example.fooddistribution.AndroidConstants.MyPermission;
 import com.example.fooddistribution.AndroidConstants.noInternetDialog;
 
+import com.example.fooddistribution.Models.UserModel;
 import com.example.fooddistribution.Models.ImageModel;
 import com.example.fooddistribution.R;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -37,11 +36,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -63,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private DatabaseReference reference;
+    private FirebaseFirestore firebaseFirestore;
     private StorageReference firebaseStorage;
     private String userId;
     private String ImageUrl = "";
@@ -73,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity
     TextView text;
 
 
-    String type;
+    String type="";
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -104,7 +106,8 @@ public class RegisterActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         userId = user.getUid();
-//        reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance().getReference();
 
         //Edit Text
@@ -187,6 +190,7 @@ public class RegisterActivity extends AppCompatActivity
 
         Button submitBt = findViewById(R.id.submitBtRegister);
         submitBt.setOnClickListener(view ->{
+
             Log.d("submitClicked", "clicked");
             noInternetDialog noInternet = new noInternetDialog(this);
             try {
@@ -210,27 +214,22 @@ public class RegisterActivity extends AppCompatActivity
             //actual registeration
 
             mAuth.createUserWithEmailAndPassword(em, pass)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Log.d("userCreated", "Reached database !!");
-
-                               // addDataToFirebase();
-                            }else{
-                                Log.d("failedCreation","user creation failed");
-                                text.setText(task.getException().getMessage());
-                                no.setText("Try Again");
-                                no.setVisibility(View.VISIBLE);
-                                yes.setVisibility(View.GONE);
-                                mDialog.show();
-                            }
-                            progressBar.setVisibility(View.GONE);
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            Log.d("userCreated", "Reached database !!");
+                            addDataFirebase();
+                        }else{
+                            Log.d("failedCreation","user creation failed");
+                            text.setText(task.getException().getMessage());
+                            no.setText("Try Again");
+                            no.setVisibility(View.VISIBLE);
+                            yes.setVisibility(View.GONE);
+                            mDialog.show();
                         }
-
-
+                        progressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     });
+
 
         });
         TextView loginBt = findViewById(R.id.loginbuttonTVRegister);
@@ -239,11 +238,37 @@ public class RegisterActivity extends AppCompatActivity
         });
     }
 
+
+
     private String getFileExtension(Uri mUri){
 
         ContentResolver cr = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cr.getType(mUri));
+
+    }
+
+    private void addDataFirebase() {
+        String fname = firstName.getText().toString().trim();
+        String lname = lastName.getText().toString().trim();
+        String contactN = contact.getText().toString().trim();
+        String dcity = city.getText().toString().trim();
+        String dpincode = pincode.getText().toString().trim();
+        String demail = email.getText().toString().trim();
+        String dcountry = country.getText().toString().trim();
+        String daddress = address.getText().toString().trim();
+        String dstate = state.getText().toString().trim();
+        String typeofuser = "donar";
+
+        CollectionReference collectionReference = firebaseFirestore.collection(type).document(userId).collection("user_person_info");
+        collectionReference.add(new UserModel(fname,lname,demail,contactN,daddress,dpincode,dcity,dstate,dcountry,typeofuser)).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(RegisterActivity.this,"data upload successfull",Toast.LENGTH_LONG).show();
+                }
+            }
+        }).addOnFailureListener(e -> Toast.makeText(RegisterActivity.this,"something went Wrong!!!",Toast.LENGTH_LONG).show());
 
     }
 
@@ -260,7 +285,6 @@ public class RegisterActivity extends AppCompatActivity
             progressBar.setVisibility(View.INVISIBLE);
             Toast.makeText(RegisterActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
             user.profileImage = ImageUrl;
-
             reference.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
