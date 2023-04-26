@@ -10,4 +10,9 @@
 
     //my colors
     <color name="cream">#25809BCE</color>
+    <color name="maOrange">#FF6200EE</color>
+    <color name="greyDark">#676666</color>
+    <color name="textSecondary">#757575</color>
+    <color name="lightGrey">#E4E2E2</color>
+    <color name="red">#CC1616</color>
 </resources>

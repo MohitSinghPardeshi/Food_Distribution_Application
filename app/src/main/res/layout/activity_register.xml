@@ -9,11 +9,11 @@
 
     <ProgressBar
         android:id="@+id/progressBarRegister"
-        android:visibility="gone"
-        android:elevation="20dp"
-        android:layout_gravity="center"
         android:layout_width="44dp"
-        android:layout_height="44dp"/>
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:elevation="20dp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,8 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="600dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
             android:layout_gravity="end"
             android:orientation="vertical">
 
@@ -43,9 +44,10 @@
                 android:visibility="visible">
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/registerTVactiregister"
                         android:layout_width="wrap_content"
@@ -55,6 +57,7 @@
                         android:text="@string/Register"
                         android:textColor="#030303"
                         android:textSize="30sp" />
+
                     <TextView
                         android:id="@+id/typeTVactiregister"
                         android:layout_width="wrap_content"
@@ -67,22 +70,24 @@
                 </LinearLayout>
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_marginTop="30dp"
+                    android:id="@+id/profilepicIVRegister"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:id="@+id/profilepicIVRegister"
-                    android:src="@drawable/profile_image"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:src="@drawable/profile_image" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailEtRegister"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:errorEnabled="true"
                     android:layout_marginTop="10dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/emailEtRegister"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter Email" />
@@ -92,21 +97,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="8dp"
                     android:background="#d5d5d5" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordEtRegister1"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
                     android:layout_marginTop="10dp"
+                    app:errorEnabled="true"
                     app:endIconMode="password_toggle"
                     app:endIconTint="#000">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/passwordEtRegister1"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter Password"
@@ -122,16 +128,17 @@
                     android:background="#d5d5d5" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordEtRegister2"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
                     android:layout_marginTop="10dp"
+                    app:errorEnabled="true"
                     app:endIconMode="password_toggle"
                     app:endIconTint="#000">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/passwordEtRegister2"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Confirm Password"
@@ -151,9 +158,9 @@
                     android:layout_width="45dp"
                     android:layout_height="30dp"
                     android:layout_gravity="end"
-                    android:clickable="true"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
+                    android:clickable="true"
                     android:contentDescription="@string/proceed"
                     android:src="@drawable/ic_forward" />
 
@@ -303,20 +310,20 @@
                         android:layout_width="45dp"
                         android:layout_height="30dp"
                         android:layout_gravity="end"
-                        android:clickable="true"
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
+                        android:clickable="true"
                         android:contentDescription="@string/proceed"
                         android:src="@drawable/ic_baseline_arrow_back_24" />
 
                     <ImageView
                         android:id="@+id/proceed2"
                         android:layout_width="45dp"
-                        android:clickable="true"
                         android:layout_height="30dp"
                         android:layout_gravity="end"
                         android:layout_marginTop="20dp"
                         android:layout_weight="1"
+                        android:clickable="true"
                         android:contentDescription="@string/proceed"
                         android:src="@drawable/ic_forward" />
 
@@ -591,8 +598,8 @@
                     android:layout_width="45dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="20dp"
-                    android:contentDescription="@string/proceed"
                     android:clickable="true"
+                    android:contentDescription="@string/proceed"
                     android:src="@drawable/ic_baseline_arrow_back_24" />
 
                 <Button
@@ -601,11 +608,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="20dp"
-                    android:textSize="18sp"
-                    android:padding="10dp"
-                    android:clickable="true"
                     android:backgroundTint="#1C1B1B"
-                    android:text="Submit." />
+                    android:clickable="true"
+                    android:padding="10dp"
+                    android:text="Submit."
+                    android:textSize="18sp" />
 
 
             </LinearLayout>

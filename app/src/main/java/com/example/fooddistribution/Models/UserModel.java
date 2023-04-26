@@ -2,12 +2,15 @@ package com.example.fooddistribution.Models;
 
 import com.google.firebase.firestore.DocumentId;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
+    public String profileImage;
     @DocumentId
     private String documentId;
-    String fname;
-    String lname;
-    String email;
+    String fname = "";
+    String lname = "";
+    String email = "";
     String contactNo;
     String address;
     String pincode;
@@ -15,6 +18,7 @@ public class UserModel {
     String state;
     String country;
     String type;
+
 
     public UserModel() {
     }

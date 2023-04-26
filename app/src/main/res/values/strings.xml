@@ -2,7 +2,6 @@
     <string name="app_name">Food.Distribution</string>
 
 
-
     <string name="login">Log.in</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -32,5 +31,9 @@
     <string name="skip_for_now">Skip For Now</string>
     <string name="get_started">Get Started</string>
     <string name="sign_in">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="upload_food_image_optional">Upload Food Image <font color='#FF6200EE'>(optional)</font></string>
+    <string name="location"><font fontFamily = "monospace">Location:</font></string>
 
 </resources>

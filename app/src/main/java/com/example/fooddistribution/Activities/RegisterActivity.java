@@ -36,13 +36,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -53,8 +56,9 @@ import java.io.IOException;
 public class RegisterActivity extends AppCompatActivity
 {
     private ProgressBar progressBar;
+    private TextInputLayout email,password1,password2;
 
-    private EditText email,password1,password2,firstName,lastName,contact,address,pincode,city,state,country;
+    private EditText firstName,lastName,contact,address,pincode,city,state,country;
     private TextView typeTv;
     private Dialog mDialog;
     private ImageView img;
@@ -75,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity
     TextView text;
 
 
-    String type="";
+    String type="donor";
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -83,7 +87,8 @@ public class RegisterActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         MyPermission.checkAndRequestPermissions(this);
-        type = getIntent().getStringExtra("userType");
+//        type = getIntent().getStringExtra("userType");
+        type = "donor";
         initFun();
     }
     private void initFun ()
@@ -104,8 +109,6 @@ public class RegisterActivity extends AppCompatActivity
 
         //firebase
         mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-        userId = user.getUid();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         firebaseFirestore=FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance().getReference();
@@ -161,7 +164,7 @@ public class RegisterActivity extends AppCompatActivity
 
         ImageView proceed2 = findViewById(R.id.proceed2);
         proceed2.setOnClickListener(view -> {
-            if(det.isShown())
+            if(validate2() && det.isShown())
             {
                 det.setVisibility(View.INVISIBLE);
                 add.setVisibility(View.VISIBLE);
@@ -180,6 +183,7 @@ public class RegisterActivity extends AppCompatActivity
 
         ImageView receed3 = findViewById(R.id.receed3);
         receed3.setOnClickListener(view -> {
+            validate2();
             if(add.isShown())
             {
                 add.setVisibility(View.INVISIBLE);
@@ -190,7 +194,9 @@ public class RegisterActivity extends AppCompatActivity
 
         Button submitBt = findViewById(R.id.submitBtRegister);
         submitBt.setOnClickListener(view ->{
-
+            if(!validate3()){
+                return;
+            }
             Log.d("submitClicked", "clicked");
             noInternetDialog noInternet = new noInternetDialog(this);
             try {
@@ -203,8 +209,8 @@ public class RegisterActivity extends AppCompatActivity
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String em = email.getText().toString().trim();
-            String pass = password1.getText().toString().trim();
+            String em = email.getEditText().getText().toString().trim();
+            String pass = password1.getEditText().getText().toString().trim();
             Log.d("emailandPass",em+" "+pass);
             progressBar.setVisibility(View.VISIBLE);
             //disable touch response
@@ -214,21 +220,67 @@ public class RegisterActivity extends AppCompatActivity
             //actual registeration
 
             mAuth.createUserWithEmailAndPassword(em, pass)
-                    .addOnCompleteListener(task -> {
-                        if(task.isSuccessful()){
-                            Log.d("userCreated", "Reached database !!");
-                            addDataFirebase();
-                        }else{
+                    .addOnSuccessListener(authResult -> {
+                        Log.d("userCreated", "Reached database !!");
+                        addDataFirebase();
+                        progressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle the exception
+                        if (e instanceof FirebaseAuthUserCollisionException) {
+                            // User is already registered
+                            CollectionReference collectionReference = firebaseFirestore.collection("donor").document(mAuth.getUid()).collection("user_person_info");
+                            collectionReference.get().addOnCompleteListener(t->{
+                                if(t.isSuccessful()){
+                                    if (t.getResult().isEmpty()) {
+                                        // The collection does not exist
+                                        addDataFirebase();
+                                    } else {
+                                        Log.d("failedCreation","user creation failed");
+                                        text.setText(e.getMessage());
+                                        no.setText("Try Again");
+                                        no.setVisibility(View.VISIBLE);
+                                        yes.setVisibility(View.GONE);
+                                        mDialog.show();
+
+                                    }
+                                }else{
+                                    // Handle the error
+                                    text.setText("Donor Data Check Failed(REG)!!");
+                                    no.setVisibility(View.GONE);
+                                    yes.setText("Cancel");
+                                    mDialog.show();
+                                }
+                            });
+                        } else {
                             Log.d("failedCreation","user creation failed");
-                            text.setText(task.getException().getMessage());
+                            text.setText(e.getMessage());
                             no.setText("Try Again");
                             no.setVisibility(View.VISIBLE);
                             yes.setVisibility(View.GONE);
                             mDialog.show();
+
                         }
                         progressBar.setVisibility(View.GONE);
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     });
+//            mAuth.createUserWithEmailAndPassword(em, pass)
+//                    .addOnCompleteListener(task -> {
+//                        if(task.isSuccessful()){
+//                            Log.d("userCreated", "Reached database !!");
+//                            addDataFirebase();
+//                        }else{
+//                            Log.d("failedCreation","user creation failed");
+//                            text.setText(task.getException().getMessage());
+//                            no.setText("Try Again");
+//                            no.setVisibility(View.VISIBLE);
+//                            yes.setVisibility(View.GONE);
+//                            mDialog.show();
+//                        }
+//                        progressBar.setVisibility(View.GONE);
+//                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+//                    });
 
 
         });
@@ -237,7 +289,6 @@ public class RegisterActivity extends AppCompatActivity
             startActivity(new Intent(RegisterActivity.this, SignInActivity.class));
         });
     }
-
 
 
     private String getFileExtension(Uri mUri){
@@ -254,49 +305,42 @@ public class RegisterActivity extends AppCompatActivity
         String contactN = contact.getText().toString().trim();
         String dcity = city.getText().toString().trim();
         String dpincode = pincode.getText().toString().trim();
-        String demail = email.getText().toString().trim();
+        String demail = email.getEditText().getText().toString().trim();
         String dcountry = country.getText().toString().trim();
         String daddress = address.getText().toString().trim();
         String dstate = state.getText().toString().trim();
-        String typeofuser = "donar";
+        String typeofuser = type;
 
-        CollectionReference collectionReference = firebaseFirestore.collection(type).document(userId).collection("user_person_info");
-        collectionReference.add(new UserModel(fname,lname,demail,contactN,daddress,dpincode,dcity,dstate,dcountry,typeofuser)).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(RegisterActivity.this,"data upload successfull",Toast.LENGTH_LONG).show();
-                }
-            }
-        }).addOnFailureListener(e -> Toast.makeText(RegisterActivity.this,"something went Wrong!!!",Toast.LENGTH_LONG).show());
+        userId = mAuth.getUid();
 
-    }
+        UserModel userModel = new UserModel(fname,lname,demail,contactN,daddress,dpincode,dcity,dstate,dcountry,typeofuser);
 
-    private void addDataToFirebase() {
-        String em = email.getText().toString().trim();
-        Log.d("reachedDatabase", "Reached database !!");
-        User user = new User();
-
-        user.email = em;
-        user.name = firstName.getText().toString().trim();
-        user.Id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d("insideAddData", "Success");
         if(imageUri == null){
             progressBar.setVisibility(View.INVISIBLE);
-            Toast.makeText(RegisterActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
-            user.profileImage = ImageUrl;
-            reference.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            Toast.makeText(RegisterActivity.this, "Uploaded Successfully1", Toast.LENGTH_SHORT).show();
+            userModel.profileImage = ImageUrl;
+
+            //harshadUploadCode
+            CollectionReference collectionReference = firebaseFirestore.collection(type).document(userId).collection("user_person_info");
+            collectionReference.add(userModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
+                public void onComplete(@NonNull Task<DocumentReference> task) {
                     if(task.isSuccessful()){
-                        Toast.makeText(RegisterActivity.this, "Successful " , Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(RegisterActivity.this, "Something went wrong :: " + task.getException(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this,"data upload successfull2",Toast.LENGTH_LONG).show();
+                        text.setText("Registeration Successfull!!");
+                        no.setText("Okay");
+                        no.setVisibility(View.VISIBLE);
+                        yes.setVisibility(View.GONE);
+                        no.setOnClickListener(t->{
+                            finish();
+                        });
+                        mDialog.show();
                     }
                 }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(RegisterActivity.this,"something went Wrong!!!" + e.getMessage(),Toast.LENGTH_LONG).show();
             });
-            setResult(RESULT_OK, new Intent());
-            finish();
+            //till here-------------------------
         }else{
             final StorageReference fileRef = firebaseStorage.child("ProfileImages").child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
             fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -305,25 +349,33 @@ public class RegisterActivity extends AppCompatActivity
                     fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-
-                            ImageModel model = new ImageModel(uri.toString());
-                            String modelId = reference.push().getKey();
                             progressBar.setVisibility(View.INVISIBLE);
-                            user.profileImage = uri.toString();
-                            Toast.makeText(RegisterActivity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                            ImageUrl = uri.toString();
+                            userModel.profileImage = uri.toString();
+                            Log.d("imageurl", uri.toString());
+                            Toast.makeText(RegisterActivity.this, "Uploaded Successfully2", Toast.LENGTH_SHORT).show();
 
-                            reference.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            //harshadUploadCode
+                            CollectionReference collectionReference = firebaseFirestore.collection(type).document(userId).collection("user_person_info");
+                            collectionReference.add(userModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                 @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(RegisterActivity.this, "Successful " , Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        Toast.makeText(RegisterActivity.this, "Something went wrong :: " + task.getException(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegisterActivity.this,"data upload successfull3",Toast.LENGTH_LONG).show();
+                                        text.setText("Registeration Successfull!!");
+                                        no.setText("Okay");
+                                        no.setVisibility(View.VISIBLE);
+                                        yes.setVisibility(View.GONE);
+                                        no.setOnClickListener(t->{
+                                            finish();
+                                        });
+                                        mDialog.show();
                                     }
                                 }
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(RegisterActivity.this,"something went Wrong!!! "+ e.getMessage(),Toast.LENGTH_LONG).show();
                             });
-                            setResult(RESULT_OK, new Intent());
-                            finish();
+                            //till here-------------------------
                         }
                     });
                 }
@@ -336,73 +388,64 @@ public class RegisterActivity extends AppCompatActivity
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     progressBar.setVisibility(View.INVISIBLE);
-                    Toast.makeText(RegisterActivity.this, "Uploading Failed !!" + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    reference.child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(RegisterActivity.this, "Successful " , Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(RegisterActivity.this, "Something went wrong :: " + task.getException(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                    setResult(RESULT_OK, new Intent());
-                    finish();
+                    Toast.makeText(RegisterActivity.this, "Uploading Failed !!" + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }
-        Log.d("reachedEnd", "of firebase Data");
+
     }
 
     public boolean validate1(){
-        String em = email.getText().toString().trim();
-        String pass1 = password1.getText().toString().trim();
-        String pass2 = password2.getText().toString().trim();
+        String em = email.getEditText().getText().toString().trim();
+        String pass1 = password1.getEditText().getText().toString().trim();
+        String pass2 = password2.getEditText().getText().toString().trim();
+
+        Boolean toret = true;
 
 
         if(em.isEmpty()){
             email.setError("Email is required!!");
             email.requestFocus();
-            return false;
-        }
-
-        if(!Patterns.EMAIL_ADDRESS.matcher(em).matches()){
+            toret =  false;
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(em).matches()){
             email.setError("Please provide valid email!!");
             email.requestFocus();
-            return false;
+            toret = false;
+        }else{
+            email.setError(null);
         }
 
-        if(!pass1.equals(pass2)){
-            password1.setError("Both Passwords should be same.");
-            password2.setError("Both Passwords should be same.");
-            password1.requestFocus();
-            password2.requestFocus();
-            return false;
-        }
         if(pass1.isEmpty()){
             password1.setError("Password is required!!");
             password1.requestFocus();
-            return false;
+            toret = false;
+        }else if(pass1.length() < 6) {
+            password1.setError("Enter a valid password!!");
+            password1.requestFocus();
+            toret = false;
+        }else if(!pass1.equals(pass2)){
+            password1.setError("Both Passwords should be same.");
+            password1.requestFocus();
+            toret = false;
+        }else{
+            password1.setError(null);
         }
         if(pass2.isEmpty()){
             password2.setError("Password is required!!");
             password2.requestFocus();
-            return false;
-        }
-        if(password1.length() < 6) {
-            password1.setError("Enter a valid password!!");
-            password1.requestFocus();
-            return false;
-        }
-        if(password2.length() < 6){
+            toret = false;
+        }else if(pass2.length() < 6){
             password2.setError("Enter a valid password!!");
             password2.requestFocus();
-            return false;
+            toret = false;
+        }else if(!pass1.equals(pass2)){
+            password1.setError("Both Passwords should be same.");
+            password1.requestFocus();
+            toret = false;
+        }else{
+            password2.setError(null);
         }
-
-        return true;
+        return toret;
 
     }
     public boolean validate2(){
@@ -410,18 +453,23 @@ public class RegisterActivity extends AppCompatActivity
         String lname = lastName.getText().toString().trim();
         String contactNum = contact.getText().toString().trim();
         if(fname.isEmpty()){
-            firstName.setError("Email is required!!");
+            firstName.setError("First Name is required!!");
             firstName.requestFocus();
             return false;
         }
         if(lname.isEmpty()){
-            firstName.setError("Email is required!!");
-            firstName.requestFocus();
+            lastName.setError("Last Name is required!!");
+            lastName.requestFocus();
+            return false;
+        }
+        if(contactNum.length() != 10){
+            contact.setError("Enter a valid Contact Number");
+            contact.requestFocus();
             return false;
         }
         if(contactNum.isEmpty()){
-            firstName.setError("Email is required!!");
-            firstName.requestFocus();
+            contact.setError("Contact is required!!");
+            contact.requestFocus();
             return false;
         }
         return true;
@@ -433,27 +481,32 @@ public class RegisterActivity extends AppCompatActivity
         String stateName = state.getText().toString().trim();
         String countryName = country.getText().toString().trim();
         if(addressText.isEmpty()){
-            address.setError("Email is required!!");
+            address.setError("Address is required!!");
             address.requestFocus();
             return false;
         }
         if(pin.isEmpty()){
-            pincode.setError("Email is required!!");
+            pincode.setError("Pin is required!!");
+            pincode.requestFocus();
+            return false;
+        }
+        if(pin.length() != 6){
+            pincode.setError("Enter a valid pin-code");
             pincode.requestFocus();
             return false;
         }
         if(cityName.isEmpty()){
-            city.setError("Email is required!!");
+            city.setError("City is required!!");
             city.requestFocus();
             return false;
         }
         if(stateName.isEmpty()){
-            state.setError("Email is required!!");
+            state.setError("State is required!!");
             state.requestFocus();
             return false;
         }
         if(countryName.isEmpty()){
-            country.setError("Email is required!!");
+            country.setError("Country is required!!");
             country.requestFocus();
             return false;
         }
