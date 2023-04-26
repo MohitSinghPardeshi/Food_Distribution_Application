@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_margin="4dp"
+    android:elevation="12dp"
+    app:cardCornerRadius="12dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_marginVertical="12dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/description_NameTV"
+            android:layout_width="match_parent"
+            android:text="DummyName"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/greyDark"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="4dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/vegnonvegTV"
+                android:layout_width="wrap_content"
+                android:text="Veg"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/greyDark"
+                android:textSize="14sp"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_marginLeft="12dp"
+                android:id="@+id/vegnonvegIV"
+                android:layout_width="wrap_content"
+                android:src="@drawable/vegicon"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/dryorwetTV"
+            android:layout_width="wrap_content"
+            android:text="Dry/Wet"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/greyDark"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

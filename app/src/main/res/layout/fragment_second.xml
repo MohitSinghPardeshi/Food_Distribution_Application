@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragmentz.SecondFragment">
+
+    <FrameLayout
+        android:id="@+id/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="20dp"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/semi_transparent_overlay"/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp">
+
+            <ImageView
+                android:id="@+id/crossBtDonateIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_close" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="sans-serif-medium"
+                android:text="Create New Donation"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/doneBtFragmentSecondTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="6dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Done"
+                android:textColor="@color/purple_700"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="200dp">
+
+                        <ImageView
+                            android:id="@+id/profileImgDonateIV"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/profile_image" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/userNameDonateTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="userNameHere"
+                        android:textColor="#555252"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="14dp"
+
+                    android:layout_marginBottom="32dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="9">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="4"
+                        android:background="@color/lightGrey" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="21dp"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_weight="3"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:lineSpacingExtra="3sp"
+                        android:text="Food Details"
+                        android:textColor="#555252"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:translationY="-1.71sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="4"
+                        android:background="@color/lightGrey" />
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginBottom="24dp"
+                    android:backgroundTint="#E6E4E4"
+                    android:padding="12dp"
+                    app:cardCornerRadius="4dp">
+
+                    <LinearLayout
+                        android:id="@+id/toHideLL"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/uploadimagepng" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/upload_food_image_optional"
+                            android:textColor="@color/black"
+                            android:textSize="12dp" />
+
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:id="@+id/imageHereDonateIV"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop" />
+
+                        <ImageView
+                            android:id="@+id/foodImageClearIV"
+                            android:src="@drawable/ic_close"
+                            android:layout_margin="12dp"
+                            android:visibility="gone"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginBottom="24dp"
+                    android:backgroundTint="#E6E4E4"
+                    android:padding="12dp"
+                    app:cardCornerRadius="4dp">
+
+                    <EditText
+                        android:id="@+id/foodDetailsDonateET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginVertical="24dp"
+                        android:background="@null"
+                        android:fontFamily="sans-serif-medium"
+                        android:hint="Enter Food Details..."
+                        android:maxLines="10"
+                        android:textColor="@color/greyDark"
+                        android:textColorHint="@color/greyDark"
+                        android:textSize="16sp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Food Quantity"
+                        android:textColor="#555252"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/seekBarPersonNumTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginHorizontal="12dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="right"
+                        android:text="20 person"
+                        android:textColor="#555252"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <SeekBar
+                    android:id="@+id/seekBar1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="14dp"
+                    android:layout_marginTop="12dp"
+                    android:indeterminate="false"
+                    android:max="500"
+                    android:min="20"
+                    android:progress="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Cooking Time"
+                    android:textColor="#555252"
+                    android:textSize="16sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="14dp"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:id="@+id/clockImg"
+                        android:layout_width="22dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
+                        android:src="@drawable/ic_baseline_access_time_24" />
+
+                    <TextView
+                        android:id="@+id/timeTextTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:layout_toRightOf="@+id/clockImg"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="00:00 PM"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:id="@+id/timepickerEditTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginHorizontal="12dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="right"
+                        android:paddingHorizontal="12dp"
+                        android:text="edit"
+                        android:textColor="@color/purple_500"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_marginHorizontal="14dp"
+                    android:layout_marginVertical="32dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="9">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="4"
+                        android:background="@color/lightGrey" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="21dp"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_weight="2"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:lineSpacingExtra="3sp"
+                        android:text="Address"
+                        android:textColor="#555252"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:translationY="-1.71sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="4"
+                        android:background="@color/lightGrey" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/checkboxGetCurrLocationCB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_horizontal|left"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginBottom="12dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:text="user my current location"
+
+                    android:textColor="#555252"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="PickUp Address"
+                    android:textColor="#555252"
+                    android:textSize="16sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="24dp"
+                    android:backgroundTint="#E6E4E4"
+                    android:padding="12dp"
+                    app:cardCornerRadius="4dp">
+
+                    <EditText
+                        android:id="@+id/pickupAddressET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginVertical="24dp"
+                        android:background="@null"
+                        android:fontFamily="sans-serif-medium"
+                        android:hint="Enter Pickup Address..."
+                        android:maxLines="10"
+                        android:textColor="@color/greyDark"
+                        android:textColorHint="@color/greyDark"
+                        android:textSize="16sp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Pin-Code"
+                    android:textColor="#555252"
+                    android:textSize="16sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="24dp"
+                    android:backgroundTint="#E6E4E4"
+                    android:padding="12dp"
+                    app:cardCornerRadius="4dp">
+
+                    <EditText
+                        android:id="@+id/pincodeFragSecondEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginVertical="24dp"
+                        android:background="@null"
+                        android:fontFamily="sans-serif-medium"
+                        android:hint="Enter Pin-Code..."
+                        android:maxLines="10"
+                        android:textColor="@color/greyDark"
+                        android:textColorHint="@color/greyDark"
+                        android:textSize="16sp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/donateBtFragSecondBt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="32dp"
+                    android:backgroundTint="@color/purple_500"
+                    android:clipToOutline="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingVertical="16dp"
+                    android:text="Donate"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+
+</FrameLayout>
